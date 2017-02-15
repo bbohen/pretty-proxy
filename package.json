@@ -1,0 +1,14 @@
+{
+  "name": "pretty-proxy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "author": "Brad Bohen",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "http-proxy": "^1.16.2"
+  }
+}
