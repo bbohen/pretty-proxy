@@ -12,5 +12,4 @@ screen.key(["escape", "q", "C-c"], function() {
   process.exit(0);
 });
 
-// Render the screen.
 screen.render();
