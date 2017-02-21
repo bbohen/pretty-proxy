@@ -1,12 +1,4 @@
-const TerminalInterface = require('./TerminalInterface.js');
-const proxy = require('./proxy.js');
+require('./terminal');
 
-const terminal = new TerminalInterface();
-
-function displayMessage (req) {
-  const message = `| ${req.method} | ${req.url}`
-  terminal.addRequest(message);
-}
-
-proxy.on('connect', displayMessage);
-proxy.on('request', displayMessage);
+// This just kicks off the terminal version of the proxy for now.
+// Eventually, it will allow the user to choose between this and a GUI (or something totally different)

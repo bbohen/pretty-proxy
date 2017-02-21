@@ -24,19 +24,13 @@ TerminalInterface.prototype.addRequest = function(data) {
 }
 
 TerminalInterface.prototype.layoutWrapper = function() {
+  // TODO: should probably use log or table here instead
   this.wrapper = blessed.list({
+    interactive: false, // temp
+    parent: this.screen,
     height: "100%",
     width: "100%",
-    style: {
-      selected: {
-        bg: "green",
-        fg: "blue"
-      },
-      item: {
-        bg: "blue",
-        fg: "green"
-      }
-    }
+    tags: true,
   });
 
   this.screen.append(this.wrapper);

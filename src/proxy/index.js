@@ -22,15 +22,15 @@ const server = http.createServer(function(req, res) {
 
 server.on('connect', (req, socket, head) => {
   const parts = req.url.split(':', 2);
-	// open a TCP connection to the remote host
+  // open a TCP connection to the remote host
   const conn = net.connect(parts[1], parts[0], () => {
     // respond to the client that the connection was made
-      socket.write("HTTP/1.1 200 OK\r\n\r\n");
-      // create a tunnel between the two hosts
-      socket.pipe(conn);
-      conn.pipe(socket);
-    })
-  });
+    socket.write("HTTP/1.1 200 OK\r\n\r\n");
+    // create a tunnel between the two hosts
+    socket.pipe(conn);
+    conn.pipe(socket);
+  })
+});
 
 server.listen(port);
 console.log(`listening on port ${port}`);
