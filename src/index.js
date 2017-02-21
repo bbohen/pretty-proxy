@@ -1,11 +1,12 @@
-require('./proxy.js');
-require('./terminalInterface.js');
+const TerminalInterface = require('./TerminalInterface.js');
+const proxy = require('./proxy.js');
 
-// combine data/interface here
-// - terminal could look something like
-// proxy();
-// proxy.on('traffic', myFuncThatSendsDataToBlessed)
-// https://github.com/FormidableLabs/webpack-dashboard/blob/master/bin/webpack-dashboard.js
-// - will need some sort of socket/push for electron/web
-// needs to be able to quickly push to a client (electron)
-// - check out observables for both
+const terminal = new TerminalInterface();
+
+function displayMessage (req) {
+  const message = `| ${req.method} | ${req.url}`
+  terminal.addRequest(message);
+}
+
+proxy.on('connect', displayMessage);
+proxy.on('request', displayMessage);
