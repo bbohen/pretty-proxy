@@ -1,15 +1,25 @@
 {
   "name": "pretty-proxy",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "src/index.js",
   "repository": {},
   "author": "Brad Bohen",
   "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
+    "lint": "eslint src --ext .js --fix",
     "start": "node src/index.js"
   },
   "dependencies": {
     "blessed": "^0.1.81",
     "http-proxy": "^1.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.1.0"
   }
 }

@@ -1,9 +1,9 @@
-const TerminalInterface = require('./TerminalInterface');
-const proxy = require('../proxy');
+const Log = require('./Log');
+const server = require('../server');
 
-const { addError, addRequest } = new TerminalInterface();
+const { addError, addRequest } = new Log();
 
-proxy.on('connect', addRequest);
-proxy.on('request', addRequest);
+server.on('connect', addRequest);
+server.on('request', addRequest);
 
 process.on('uncaughtException', addError);

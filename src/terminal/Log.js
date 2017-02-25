@@ -1,16 +1,17 @@
 const blessed = require('blessed');
 
-function TerminalInterface(options) {
+function Log() {
   this.screen = blessed.screen({
     smartCSR: true,
     title: 'pretty proxy',
     dockBorders: false,
     fullUnicode: true,
-    autoPadding: true
+    autoPadding: true,
   });
 
-  this.screen.key(["escape", "q", "C-c"], () => {
-    process.exit(0);
+  this.screen.key(['escape', 'q', 'C-c'], () => {
+    const { exit } = process;
+    exit(0);
   });
 
   this.addError = this.addError.bind(this);
@@ -21,7 +22,7 @@ function TerminalInterface(options) {
   this.screen.render();
 }
 
-TerminalInterface.prototype.addError = function(err) {
+Log.prototype.addError = function addError(err) {
   let message = 'error';
 
   if (err.syscall) {
@@ -30,25 +31,25 @@ TerminalInterface.prototype.addError = function(err) {
 
   this.wrapper.add(message);
   this.screen.render();
-}
+};
 
-TerminalInterface.prototype.addRequest = function(req) {
-  const message = `{blue-fg}${req.method}{/blue-fg} | ${req.url}`;
+Log.prototype.addRequest = function addRequest(req) {
+  const message = `{green-fg}${req.method}{/green-fg} | ${req.url}`;
 
   this.wrapper.add(message);
   this.screen.render();
-}
+};
 
-TerminalInterface.prototype.layoutWrapper = function() {
+Log.prototype.layoutWrapper = function layoutWrapper() {
   this.wrapper = blessed.log({
-    interactive: false, // temp
+    interactive: false,
     parent: this.screen,
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     tags: true,
   });
 
   this.screen.append(this.wrapper);
-}
+};
 
-module.exports = TerminalInterface;
+module.exports = Log;
