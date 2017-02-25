@@ -9,17 +9,33 @@ function TerminalInterface(options) {
     autoPadding: true
   });
 
-  this.screen.key(["escape", "q", "C-c"], function() {
+  this.screen.key(["escape", "q", "C-c"], () => {
     process.exit(0);
   });
+
+  this.addError = this.addError.bind(this);
+  this.addRequest = this.addRequest.bind(this);
 
   this.layoutWrapper.call(this);
 
   this.screen.render();
 }
 
-TerminalInterface.prototype.addRequest = function(data) {
-  this.wrapper.add(data);
+TerminalInterface.prototype.addError = function(err) {
+  let message = 'error';
+
+  if (err.syscall) {
+    message = `{red-fg}${err.syscall.toUpperCase()}{/red-fg} | ${err.errno} ${err.address}`;
+  }
+
+  this.wrapper.add(message);
+  this.screen.render();
+}
+
+TerminalInterface.prototype.addRequest = function(req) {
+  const message = `{blue-fg}${req.method}{/blue-fg} | ${req.url}`;
+
+  this.wrapper.add(message);
   this.screen.render();
 }
 

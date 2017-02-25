@@ -3,12 +3,6 @@ const http = require('http');
 const net = require('net');
 const httpProxy = require('http-proxy');
 
-const port = 5060;
-
-process.on('uncaughtException', (err) => {
-  console.log(err);
-});
-
 const proxy = httpProxy.createProxyServer();
 const server = http.createServer(function(req, res) {
   proxy.web(req, res, {
@@ -19,6 +13,7 @@ const server = http.createServer(function(req, res) {
     console.log(err);
   })
 });
+const port = 5060;
 
 server.on('connect', (req, socket, head) => {
   const parts = req.url.split(':', 2);
