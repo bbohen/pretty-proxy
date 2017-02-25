@@ -40,8 +40,7 @@ TerminalInterface.prototype.addRequest = function(req) {
 }
 
 TerminalInterface.prototype.layoutWrapper = function() {
-  // TODO: should probably use log or table here instead
-  this.wrapper = blessed.list({
+  this.wrapper = blessed.log({
     interactive: false, // temp
     parent: this.screen,
     height: "100%",
