@@ -1,55 +1,60 @@
 const blessed = require('blessed');
 
-function Log() {
-  this.screen = blessed.screen({
-    smartCSR: true,
-    title: 'pretty proxy',
-    dockBorders: false,
-    fullUnicode: true,
-    autoPadding: true,
-  });
+class Log {
+  constructor() {
+    this.screen = blessed.screen({
+      smartCSR: true,
+      title: 'pretty proxy',
+      dockBorders: false,
+      fullUnicode: true,
+      autoPadding: true,
+    });
 
-  this.screen.key(['escape', 'q', 'C-c'], () => {
-    const { exit } = process;
-    exit(0);
-  });
+    this.screen.key(['escape', 'q', 'C-c'], () => {
+      const { exit } = process;
+      exit(0);
+    });
 
-  this.addError = this.addError.bind(this);
-  this.addRequest = this.addRequest.bind(this);
+    this.addError = this.addError.bind(this);
+    this.addRequest = this.addRequest.bind(this);
+    this.layoutWrapper.call(this);
 
-  this.layoutWrapper.call(this);
-
-  this.screen.render();
-}
-
-Log.prototype.addError = function addError(err) {
-  let message = 'error';
-
-  if (err.syscall) {
-    message = `{red-fg}${err.syscall.toUpperCase()}{/red-fg} | ${err.errno} ${err.address}`;
+    this.screen.render();
   }
 
-  this.wrapper.add(message);
-  this.screen.render();
-};
+  addError(err) {
+    let message = 'ERROR';
 
-Log.prototype.addRequest = function addRequest(req) {
-  const message = `{green-fg}${req.method}{/green-fg} | ${req.url}`;
+    if (err.syscall) {
+      message = `{red-fg}${err.syscall.toUpperCase()}{/red-fg} | ${err.errno} ${err.address}`;
+    }
 
-  this.wrapper.add(message);
-  this.screen.render();
-};
+    this.wrapper.pushLine(message);
+    this.wrapper.setScrollPerc(100);
+    this.screen.render();
+  }
 
-Log.prototype.layoutWrapper = function layoutWrapper() {
-  this.wrapper = blessed.log({
-    interactive: false,
-    parent: this.screen,
-    height: '100%',
-    width: '100%',
-    tags: true,
-  });
+  addRequest(req, res) {
+    const message = `{green-fg}${req.method}{/green-fg} {cyan-fg}${res.statusCode || ''}{/cyan-fg} {|} ${req.url}`;
 
-  this.screen.append(this.wrapper);
-};
+    this.wrapper.pushLine(message);
+    this.wrapper.setScrollPerc(100);
+    this.screen.render();
+  }
+
+  layoutWrapper() {
+    this.wrapper = blessed.box({
+      alwaysScroll: true,
+      scrollable: true,
+      parent: this.screen,
+      height: '100%',
+      width: '100%',
+      tags: true,
+    });
+
+    this.screen.append(this.wrapper);
+  }
+
+}
 
 module.exports = Log;
