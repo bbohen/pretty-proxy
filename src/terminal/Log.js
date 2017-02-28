@@ -35,7 +35,10 @@ class Log {
   }
 
   addRequest(req, res) {
-    const message = `{green-fg}${req.method}{/green-fg} {cyan-fg}${res.statusCode || ''}{/cyan-fg} {|} ${req.url}`;
+    // need to get creative for formatting the rows
+    const emptyMethodSpace = 10 - req.method.length;
+    const method = emptyMethodSpace > 0 ? req.method + ' '.repeat(emptyMethodSpace) : req.method;
+    const message = `{green-fg}${method}{/green-fg} {cyan-fg}${res.statusCode || ''}{/cyan-fg} {|} ${req.url}{/}`;
 
     this.wrapper.pushLine(message);
     this.wrapper.setScrollPerc(100);
@@ -45,10 +48,16 @@ class Log {
   layoutWrapper() {
     this.wrapper = blessed.box({
       alwaysScroll: true,
-      scrollable: true,
+      border: 'line',
+      keys: true,
       parent: this.screen,
-      height: '100%',
-      width: '100%',
+      scrollable: true,
+      style: {
+        scrollbar: {
+          bg: 'blue',
+          fg: 'green',
+        },
+      },
       tags: true,
     });
 
