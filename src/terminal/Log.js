@@ -35,10 +35,8 @@ class Log {
   }
 
   addRequest(req, res) {
-    // need to get creative for formatting the rows
-    const emptyMethodSpace = 10 - req.method.length;
-    const method = emptyMethodSpace > 0 ? req.method + ' '.repeat(emptyMethodSpace) : req.method;
-    const message = `{green-fg}${method}{/green-fg} {cyan-fg}${res.statusCode || ''}{/cyan-fg} {|} ${req.url}{/}`;
+    const border = '**********\n'; // not a fan of this but there doesn't seem to be a way to give lines a border in blessed?
+    const message = `${border}{green-fg}${req.method}{/green-fg} {cyan-fg}${res.statusCode || ''}{/cyan-fg}\n${req.url}{/}`;
 
     this.wrapper.pushLine(message);
     this.wrapper.setScrollPerc(100);
@@ -48,7 +46,9 @@ class Log {
   layoutWrapper() {
     this.wrapper = blessed.box({
       alwaysScroll: true,
-      border: 'line',
+      border: {
+        type: 'line',
+      },
       keys: true,
       parent: this.screen,
       scrollable: true,
