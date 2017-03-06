@@ -1,12 +1,20 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 
-console.log('test');
+import App from './containers/App'
 
-const HelloWorld = () => (
-  <div>
-    <p>Hello world</p>
-  </div>
-);
+const render = Component => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('mount'),
+  )
+}
 
-ReactDOM.render(<HelloWorld />, document.getElementById('mount'));
+render(App)
+
+if (module.hot) {
+  module.hot.accept('./containers/App', () => { render(App) })
+}

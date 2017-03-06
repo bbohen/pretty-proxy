@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "webpack --config ./src/electron/internals/webpack.config.dev.js",
-    "dev": "node ./src/electron/devServer.js",
+    "dev": "HOT=1 NODE_ENV=development node ./src/electron/devServer.js",
     "electron-start": "electron ./src/electron/main.js",
     "lint": "eslint src --ext .js --fix",
     "start": "node src/index.js"
@@ -32,6 +32,8 @@
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.1.0",
+    "html-webpack-plugin": "^2.28.0",
+    "react-hot-loader": "next",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   }

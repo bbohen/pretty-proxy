@@ -1,23 +1,31 @@
 const path = require('path');
-
-// const port = process.env.PORT || 3000;
+const webpack = require('webpack'); // eslint-disable-line node/no-unpublished-require
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line node/no-unpublished-require
 
 module.exports = {
   cache: true,
   context: path.resolve(__dirname, '../'),
   devServer: {
+    hot: true,
+    inline: true,
+    contentBase: path.resolve(__dirname, '../'),
     publicPath: '/',
     stats: {
       colors: true,
     },
   },
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
-    js: './app/index.js',
+    main: [
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:8080',
+      'webpack/hot/only-dev-server',
+      './app/index.js',
+    ],
   },
   output: {
-    path: path.resolve(__dirname, '../', 'dist'),
     filename: 'bundle.js',
+    path: path.resolve(__dirname, '../', 'dist'),
     publicPath: '/',
   },
   module: {
@@ -25,8 +33,22 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loaders: ['babel-loader'],
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss', '.jpg', '.png', '.gif', '.json'],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Pretty Proxy',
+      filename: 'index.html',
+      template: 'index.template.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 };
