@@ -1,8 +1,15 @@
 {
-  "plugins": ["node"],
-  "extends": ["airbnb-base", "plugin:node/recommended"],
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "extends": "eslint-config-airbnb",
   "env": {
+      "browser": true,
       "es6": true,
       "node": true
-  }
+  },
+  "rules": {
+    "react/jsx-filename-extension": 0
+  },
 }

@@ -6,4 +6,4 @@ const HelloWorld = () => (
   </div>
 );
 
-export default HelloWorld
+export default HelloWorld;
