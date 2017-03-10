@@ -1,18 +1,20 @@
 const { app, BrowserWindow } = require('electron');
+const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer'); // eslint-disable-line import/no-extraneous-dependencies
+// const devtoolsInstaller = require('electron-devtools-installer');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow() {
+  installExtension(REACT_DEVELOPER_TOOLS);
+  installExtension(REDUX_DEVTOOLS);
+
   // Create the browser window.
   win = new BrowserWindow({ width: 800, height: 600 });
 
   // TODO: wrap in env var
   win.loadURL(`http://localhost:${process.env.PORT || 3000}/`);
-
-  // Open the DevTools.
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
