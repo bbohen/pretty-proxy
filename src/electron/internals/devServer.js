@@ -1,5 +1,5 @@
 /* eslint-disable */
-const config = require('./internals/webpack.config.dev.js');
+const config = require('./webpack.config.dev.js');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const { spawn } = require('child_process');

@@ -15,7 +15,10 @@ server.on('request', (data) => {
 
   // ignore the requests to socket.io itself
   if (!isSocketIo) {
-    io.emit('request', { url: data.url });
+    io.emit('request', {
+      statusCode: data.statusCode,
+      url: data.url,
+    });
   }
 });
 
