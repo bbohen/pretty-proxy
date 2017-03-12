@@ -11,7 +11,11 @@ function createWindow() {
   installExtension(REDUX_DEVTOOLS);
 
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600 });
+  win = new BrowserWindow({
+    height: 600,
+    title: 'Pretty Proxy',
+    width: 800,
+  });
 
   // TODO: wrap in env var
   win.loadURL(`http://localhost:${process.env.PORT || 3000}/`);
