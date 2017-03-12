@@ -1,32 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { init } from '../../redux/modules/requests';
+import { init as initProxy } from '../../redux/modules/requests';
+import RequestsContainer from '../Requests';
 
 class App extends Component {
   static propTypes = {
-    init: PropTypes.func.isRequired,
-    requests: PropTypes.shape.isRequired,
+    connectedToProxyServer: PropTypes.bool.isRequired,
+    initProxy: PropTypes.func.isRequired,
+    requests: PropTypes.arrayOf(PropTypes.shape).isRequired,
   }
 
   componentDidMount() {
-    this.props.init();
+    this.props.initProxy();
   }
 
   render() {
-    const { requests } = this.props;
-    const requestList = requests.map(({ url }, index) => (
-      <li key={index}>
-        {url}
-      </li>
-    ));
+    const { connectedToProxyServer, requests } = this.props;
 
     return (
-      <div>
-        <ul>
-          {requestList}
-        </ul>
-      </div>
+      <RequestsContainer
+        connectedToProxyServer={connectedToProxyServer}
+        requests={requests}
+      />
     );
   }
 }
@@ -41,6 +37,6 @@ function mapStateToProps({ requests }) {
 export default connect(
   mapStateToProps,
   {
-    init,
+    initProxy,
   },
 )(App);
