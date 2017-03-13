@@ -14,6 +14,16 @@ const server = http.createServer((req, res) => {
 });
 const port = 5060;
 
+proxy.on('proxyRes', function (proxyRes) {
+  console.log(`*** RESPONSE *** ${proxyRes.req.method} ${proxyRes.req.res.statusCode} ${proxyRes.req._headers.host} ${proxyRes.req.path}`);
+  // console.log(proxyRes.req);
+});
+
+proxy.on('proxyReq', function (proxyRes) {
+  console.log(`*** REQUEST **** ${proxyRes.method} ${proxyRes._headers.host} ${proxyRes.path}`);
+  // console.log(proxyRes);
+});
+
 server.on('connect', (req, socket) => {
   const parts = req.url.split(':', 2);
   // open a TCP connection to the remote host
