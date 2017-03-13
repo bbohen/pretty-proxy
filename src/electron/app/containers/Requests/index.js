@@ -13,6 +13,7 @@ const Requests = ({ requests }) =>
         rowHeight={30}
         rowCount={requests.length}
         rowGetter={({ index }) => requests[index]}
+        scrollToIndex={requests.length - 1}
       >
         <Column
           label="Url"
