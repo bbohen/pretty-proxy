@@ -21,6 +21,7 @@
     "blessed": "^0.1.81",
     "electron": "^1.6.1",
     "http-proxy": "^1.16.2",
+    "immutable": "^3.8.1",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

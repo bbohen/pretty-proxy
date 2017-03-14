@@ -3,26 +3,20 @@ const net = require('net');
 const httpProxy = require('http-proxy');
 
 const proxy = httpProxy.createProxyServer();
+let requestCount = 0;
 const server = http.createServer((req, res) => {
-  proxy.web(req, res, {
+  const requestToProxy = req;
+
+  requestToProxy.headers.pprcount = requestCount;
+  requestCount += 1;
+
+  proxy.web(requestToProxy, res, {
     changeOrigin: true,
     prependPath: false,
     target: req.url,
-  }, (err) => {
-    console.log(err); // eslint-disable-line no-console
   });
 });
 const port = 5060;
-
-proxy.on('proxyRes', function (proxyRes) {
-  console.log(`*** RESPONSE *** ${proxyRes.req.method} ${proxyRes.req.res.statusCode} ${proxyRes.req._headers.host} ${proxyRes.req.path}`);
-  // console.log(proxyRes.req);
-});
-
-proxy.on('proxyReq', function (proxyRes) {
-  console.log(`*** REQUEST **** ${proxyRes.method} ${proxyRes._headers.host} ${proxyRes.path}`);
-  // console.log(proxyRes);
-});
 
 server.on('connect', (req, socket) => {
   const parts = req.url.split(':', 2);
@@ -39,4 +33,5 @@ server.on('connect', (req, socket) => {
 server.listen(port);
 console.log(`listening on port ${port}`); // eslint-disable-line no-console
 
-module.exports = server;
+module.exports.server = server;
+module.exports.proxy = proxy;

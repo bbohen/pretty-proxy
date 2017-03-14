@@ -16,8 +16,8 @@ const Requests = ({ requests }) =>
         scrollToIndex={requests.length - 1}
       >
         <Column
-          label="Url"
-          dataKey="url"
+          label="Path"
+          dataKey="path"
           width={500}
         />
         <Column

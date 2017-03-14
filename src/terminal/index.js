@@ -1,5 +1,5 @@
 const Log = require('./Log');
-const server = require('../server');
+const { server } = require('../server');
 
 const { addError, addRequest } = new Log();
 

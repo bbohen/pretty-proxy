@@ -1,6 +1,6 @@
 import io from 'socket.io-client'; // eslint-disable-line
 
-const ADD = 'pretty-proxy/requests/ADD';
+const ADD = 'pretty-proxy/requests/ADD'; // TODO: does this naming still make sense?
 const ERROR = 'pretty-proxy/requests/ERROR';
 const ESTABLISH_PROXY_CONNECTION = 'pretty-proxy/requests/ESTABLISH_PROXY_CONNECTION';
 const INIT = 'pretty-proxy/requests/INIT';
@@ -14,12 +14,22 @@ export default function reducer(state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case ADD: {
+      const { request } = payload;
+      const matchingIndex = state.list.findIndex(item => item.id === request.id);
+      const list = [...state.list];
+
+      if (matchingIndex > -1) {
+        list[matchingIndex] = {
+          ...list[matchingIndex],
+          ...request,
+        };
+      } else {
+        list.push(request); // TODO: shouldnt be pushing this, but its late
+      }
+
       return {
         ...state,
-        list: [
-          ...state.list,
-          payload.request,
-        ],
+        list,
       };
     }
     case ERROR:
