@@ -18,13 +18,13 @@ export default function reducer(state = initialState, action) {
       const matchingIndex = state.list.findIndex(item => item.id === request.id);
       const list = [...state.list];
 
-      if (matchingIndex > -1) {
+      if (request.id && matchingIndex > -1) {
         list[matchingIndex] = {
           ...list[matchingIndex],
           ...request,
         };
       } else {
-        list.push(request); // TODO: shouldnt be pushing this, but its late
+        list.push(request);
       }
 
       return {

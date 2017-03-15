@@ -16,14 +16,29 @@ const Requests = ({ requests }) =>
         scrollToIndex={requests.length - 1}
       >
         <Column
+          label="Host"
+          dataKey="host"
+          width={200}
+        />
+        <Column
           label="Path"
           dataKey="path"
           width={500}
         />
         <Column
-          width={200}
+          label="Method"
+          dataKey="method"
+          width={100}
+        />
+        <Column
           label="Status Code"
           dataKey="statusCode"
+          width={200}
+        />
+        <Column
+          label="Response Size"
+          dataKey="bytesRead"
+          width={200}
         />
       </Table>
     )}
