@@ -11,12 +11,12 @@ const Requests = ({ requests }) =>
     <AutoSizer>
       {({ height, width }) => (
         <Table
-          headerHeight={30}
+          headerHeight={40}
           headerRowRenderer={headerRenderer}
           height={height}
           rowCount={requests.length}
           rowGetter={({ index }) => requests[index]}
-          rowHeight={30}
+          rowHeight={40}
           rowRenderer={rowRenderer}
           scrollToIndex={requests.length - 1}
           width={width}

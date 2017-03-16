@@ -21,7 +21,6 @@ function emitRequest(id, { bytesRead, host, method, statusCode, path }) {
   }
 }
 
-// server.on('connect', emitRequest);
 server.on('connect', (request) => {
   const { method, url } = request;
 

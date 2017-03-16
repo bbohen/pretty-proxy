@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import Header from './Header';
 
-const renderHeaderWithStyle = ({ className, columns, style }) =>
+const headerRenderer = ({ className, columns, style }) =>
   <Header
     className={className}
     role="row"
@@ -11,10 +11,10 @@ const renderHeaderWithStyle = ({ className, columns, style }) =>
     {columns}
   </Header>;
 
-renderHeaderWithStyle.propTypes = {
+headerRenderer.propTypes = {
   className: PropTypes.string.isRequired,
   columns: PropTypes.arrayOf(PropTypes.shape).isRequired,
   style: PropTypes.shape.isRequired,
 };
 
-export default renderHeaderWithStyle;
+export default headerRenderer;
