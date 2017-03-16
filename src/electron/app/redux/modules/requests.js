@@ -76,7 +76,7 @@ export function establishConnection() {
 
 export function init() {
   return (dispatch) => {
-    const socket = io('http://localhost:5060');
+    const socket = io('http://localhost:5060'); // global this with webpack
 
     socket.on('connection', () => dispatch(establishConnection()));
     socket.on('error', data => dispatch(error(data)));
