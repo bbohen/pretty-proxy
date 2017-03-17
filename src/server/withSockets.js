@@ -5,26 +5,20 @@ const requestsWaiting = new Map();
 
 // take passed data and emit request event to the client
 // TODO: break out into another file
-function emitRequest(id, { bytesRead, host, method, statusCode, path }) {
+function emitRequest(requestInfo) {
+  const { path } = requestInfo;
   const isSocketIo = path && path.startsWith('/socket.io/');
 
   // ignore the requests to socket.io itself
   if (!isSocketIo) {
-    io.emit('request', {
-      bytesRead,
-      host,
-      method,
-      id,
-      statusCode,
-      path,
-    });
+    io.emit('request', requestInfo);
   }
 }
 
 server.on('connect', (request) => {
   const { method, url } = request;
 
-  emitRequest(null, {
+  emitRequest({
     method,
     path: url,
   });
@@ -35,17 +29,21 @@ proxy.on('proxyReq', (proxiedRequest) => {
   const {
     _headers: {
       host,
-      pprcount,
+      pprcount: id,
     },
     method,
     path,
   } = proxiedRequest;
 
   // create an entry in the map so the response can be matched when returned
-  requestsWaiting.set(pprcount, { path });
+  requestsWaiting.set(id, {
+    path,
+    requestStart: Date.now(),
+  });
 
-  emitRequest(pprcount, {
+  emitRequest({
     host,
+    id,
     method,
     path,
   });
@@ -56,7 +54,7 @@ proxy.on('proxyRes', (proxyResponse) => {
   const {
     req: {
       _headers: {
-        pprcount,
+        pprcount: id,
       },
       res: {
         socket: {
@@ -66,12 +64,14 @@ proxy.on('proxyRes', (proxyResponse) => {
       },
     },
   } = proxyResponse;
+  const { requestStart } = requestsWaiting.get(id);
 
-  // don't need to keep this anymore
-  requestsWaiting.delete(pprcount);
+  requestsWaiting.delete(id);
 
-  emitRequest(pprcount, {
+  emitRequest({
     bytesRead,
+    id,
+    requestTime: Date.now() - requestStart,
     statusCode,
   });
 });

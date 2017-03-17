@@ -11,12 +11,12 @@ const Requests = ({ requests }) =>
     <AutoSizer>
       {({ height, width }) => (
         <Table
-          headerHeight={40}
+          headerHeight={50}
           headerRowRenderer={headerRenderer}
           height={height}
           rowCount={requests.length}
           rowGetter={({ index }) => requests[index]}
-          rowHeight={40}
+          rowHeight={50}
           rowRenderer={rowRenderer}
           scrollToIndex={requests.length - 1}
           width={width}
@@ -39,11 +39,16 @@ const Requests = ({ requests }) =>
           <Column
             label="Path"
             dataKey="path"
-            width={500}
+            width={400}
           />
           <Column
             label="Response Size"
             dataKey="bytesRead"
+            width={200}
+          />
+          <Column
+            label="Response Time"
+            dataKey="requestTime"
             width={200}
           />
         </Table>

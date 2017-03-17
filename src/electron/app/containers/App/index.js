@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 
 import { init as initProxy } from '../../redux/modules/requests';
 import RequestsContainer from '../Requests';
+import theme from '../../themes';
 
 class App extends Component {
   static propTypes = {
@@ -19,10 +21,12 @@ class App extends Component {
     const { connectedToProxyServer, requests } = this.props;
 
     return (
-      <RequestsContainer
-        connectedToProxyServer={connectedToProxyServer}
-        requests={requests}
-      />
+      <ThemeProvider theme={theme}>
+        <RequestsContainer
+          connectedToProxyServer={connectedToProxyServer}
+          requests={requests}
+        />
+      </ThemeProvider>
     );
   }
 }
