@@ -11,8 +11,10 @@
   "scripts": {
     "electron-dev": "HOT=1 NODE_ENV=development node ./src/electron/internals/devServer.js",
     "electron-start": "electron ./src/electron/main.js",
+    "generate-ssl": "openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365",
     "lint": "eslint src --ext .js --fix",
     "start-proxy": "node src/server/index.js",
+    "start-proxy-2": "node src/server/new.js",
     "start-proxy-sockets": "node src/server/withSockets.js",
     "start-proxy-terminal": "node src/index.js",
     "webpack-build": "webpack --config ./src/electron/internals/webpack.config.dev.js"
@@ -21,6 +23,8 @@
     "blessed": "^0.1.81",
     "electron": "^1.6.2",
     "http-proxy": "^1.16.2",
+    "ip": "^1.1.5",
+    "node-forge": "^0.7.1",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
